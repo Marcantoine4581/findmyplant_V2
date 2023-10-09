@@ -1,9 +1,31 @@
-const http = require('http');
-const app = require('./app');
+const express = require('express');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-app.set('port', process.env.PORT || 5000);
-const server = http.createServer(app);
+const morgan = require('morgan');
+const router = require('./routes/index');
 
-server.listen(process.env.PORT || 5000, () => {
-    console.log('Je change ')
+const app = express();
+const PORT = process.env.PORT || 5000;
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  next();
 });
+
+// Connect to the MongoDB using Mongoose
+mongoose.connect(process.env.DB_URL)
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+app.use(express.json());
+app.use(morgan('dev'));
+
+app.use('/', router);
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+module.exports = app;

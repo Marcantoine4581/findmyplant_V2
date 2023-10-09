@@ -1,2 +1,45 @@
 GET http://localhost:5000/api/products
 
+###
+GET http://localhost:5000/api/products/6498a461d62f0211b025aefb
+
+###
+DELETE http://localhost:5000/api/products/6498a461d62f0211b025aefb
+
+###
+POST http://localhost:5000/api/auth/signup
+content-type: application/json
+
+{
+  "userName": "Maurice",
+  "email": "maurice@gmail.com",
+  "password": "123",
+  "adress": {
+    "street": "",
+    "city": "Paris",
+    "postalCode": "75010",
+    "country": ""
+  }
+}
+
+###
+POST http://localhost:5000/api/auth/login
+content-type: application/json
+
+{
+  "email": "motai@gmail.com",
+  "password": "123456"
+}
+
+###
+GET http://localhost:5000/api/user/
+
+###
+GET http://localhost:5000/api/user/64989805957cd18617d16fc3
+
+###
+GET http://localhost:5000/api/user/64989805957cd18617d16fc3/products
+
+
+
+

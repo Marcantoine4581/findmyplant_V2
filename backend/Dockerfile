@@ -11,5 +11,5 @@ COPY . .
 
 EXPOSE 5000
 
-# CMD ["npm", "run", "dev"]
-CMD ["bash"]
+CMD ["npm", "run", "dev"]
+# CMD ["bash"]
