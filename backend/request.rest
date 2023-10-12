@@ -4,16 +4,16 @@ GET http://localhost:5000/api/products
 GET http://localhost:5000/api/products/6498a461d62f0211b025aefb
 
 ###
-DELETE http://localhost:5000/api/products/6498a461d62f0211b025aefb
+DELETE http://localhost:5000/api/products/6527c73a4f1dafc92efc7716
 
 ###
 POST http://localhost:5000/api/auth/signup
 content-type: application/json
 
 {
-  "userName": "Maurice",
-  "email": "maurice@gmail.com",
-  "password": "123",
+  "userName": "marc",
+  "email": "marc@gmail.com",
+  "password": "123456",
   "adress": {
     "street": "",
     "city": "Paris",
