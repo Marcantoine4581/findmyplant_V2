@@ -6,12 +6,12 @@ on:
   pull_request:
     branches: [ "main" ]
 
+defaults:
+  run:
+    working-directory: backend
+
 jobs:
   build:
-    defaults:
-      run:
-        working-directory: backend
-
     name: Test
     runs-on: ubuntu-latest
 
