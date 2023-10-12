@@ -16,8 +16,8 @@ app.use((req, res, next) => {
 });
 
 // Connect to the MongoDB using Mongoose
-mongoose.connect(process.env.DB_URL)
-  .then(() => console.log('Connexion à MongoDB réussie !'))
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connexion à MongoDB réussie!'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 app.use(express.json());
