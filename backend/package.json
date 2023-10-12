@@ -7,7 +7,7 @@
     "lint": "eslint . --ext .js",
     "start": "node server.js",
     "dev": "NODE_ENV=development nodemon server.js",
-    "test": "mocha ./test/*.test.js --exit"
+    "test": "NODE_ENV=development mocha ./test/*.test.js --exit"
   },
   "author": "",
   "license": "ISC",
