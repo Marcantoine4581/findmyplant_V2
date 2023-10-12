@@ -31,7 +31,7 @@ jobs:
 
     - name: NPM install, lint and test
       run: |
-        npm ci
+        npm install
         npm run lint
         npm run test
 
