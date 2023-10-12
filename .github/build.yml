@@ -31,7 +31,7 @@ jobs:
     - run: npm run test
 
     env:
-      MONGODB_URIT: ${{ secrets.MONGODB_URI }}  
+      MONGODB_URI: ${{ secrets.MONGODB_URI }}  
       SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}  
       CLOUD_NAME: ${{ secrets.CLOUD_NAME }}
       CLOUD_KEY: ${{ secrets.CLOUD_KEY }}
