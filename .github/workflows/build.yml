@@ -32,9 +32,10 @@ jobs:
 
       - run: npm ci
       - run: npm run lint
-      - run: npm test
+      - run: CI=true npm test
 
         env:
+          CI: true
           MONGODB_URI: ${{ secrets.MONGODB_URI }}  
           SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}  
           CLOUD_NAME: ${{ secrets.CLOUD_NAME }}
