@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint . --ext .js",
     "start": "node server.js",
-    "dev": "nodemon server.js",
+    "dev": "NODE_ENV=development nodemon server.js",
     "test": "mocha ./test/*.test.js --exit"
   },
   "author": "",
