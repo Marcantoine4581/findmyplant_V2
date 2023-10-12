@@ -21,7 +21,7 @@ jobs:
 
         env:
           NODE_ENV: production
-          MONGODB_URI_PROD: ${{ secrets.MONGODB_URI_PROD }}  
+          MONGODB_URI_PROD: ${{ secrets.MONGODB_PROD }}  
           SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}  
           CLOUD_NAME: ${{ secrets.CLOUD_NAME }}
           CLOUD_KEY: ${{ secrets.CLOUD_KEY }}
