@@ -1,0 +1,124 @@
+.plant-detail-wrapper {
+    max-width: 900px;
+    display: flex;
+    border: solid #16AF78 1px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 80px;
+    border-radius: 10px;
+    padding: 20px 20px;
+    justify-content: space-between;
+}
+
+.plant-detail-cover-background {
+    height: 400px;
+    width: 600px;
+    padding: 2px;
+    background-color: rgb(229, 228, 228);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.plant-detail-cover-background img {
+    max-height: 400px;
+    max-width: 600px;
+    padding: 10px;
+}
+
+.plant-detail-cover {
+    height: 200px;
+	width: 350px;
+	border-radius: 10px;
+	border: solid  #16AF78 1px;
+	background-position: center;
+	background-size: cover;
+    margin: 0 auto;
+}
+
+.plant-detail-name-price-condition {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+}
+
+.plant-detail-name {
+    color: #16AF78;
+    font-weight: bold;
+}
+
+.plant-detail-name-price-condition p {
+    margin-bottom: 0px;
+}
+
+.plant-detail-name-condition {
+    margin: 5px;
+}
+
+.plant-detail-condition {
+    color: #16AF78;
+    border: 1px solid #16AF78;
+    padding: 0 10px;
+}
+
+.plant-detail-description {
+    border-top: black 1px solid;
+    padding-top: 5px;
+}
+
+.plant-detail-description-title {
+    font-weight: bold;
+}
+
+
+.plant-detail-contact {
+    display: flex;
+    flex-direction: column;
+    min-width: 150px;
+}
+
+.plant-detail-userName {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.contact-button {
+    border: none;
+    background-color: #16AF78;
+    color: white;
+    border-radius: 5px;
+	border: solid  #16AF78 1px;
+    padding: 5px;
+    width: 100px;
+}
+
+.plant-detail-email {
+    border: solid  #16AF78 1px;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 5px; 
+}
+
+.plant-detail-email a {
+    text-decoration: none;
+    color: black;
+}
+
+@media (max-width: 860px) {
+    .plant-detail-wrapper {
+        display: block;
+    }
+
+    .plant-detail-cover-background {
+        width: 100%;
+    }
+
+    .plant-detail-contact {
+        border-top: 1px solid;
+        display: flex;
+        align-items: center;
+        text-align: center;
+    }
+}

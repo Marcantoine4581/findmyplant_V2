@@ -1,0 +1,48 @@
+.fmp-plant-item-userName {
+	text-transform: capitalize;
+	color: #16AF78;
+	font-weight: bold;
+}
+
+.fmp-plant-item-cover-condition {
+	height: 300px;
+	width: 220px;
+	border-radius: 10px;
+	border: solid  #16AF78 1px;
+	background-position: center;
+	background-size: cover;
+}
+
+.fmp-plant-item {
+	margin: 10px;
+	display: flex;
+	position: relative;
+	align-items: flex-start;
+	justify-content: top;
+	flex-direction: column;
+	min-height: 400px;
+}
+
+.fmp-condition {
+	color: #16AF78;
+	position: absolute;
+	background-color: white;
+	padding-left: 10px;
+	padding-right: 10px;
+    border: 1px solid #16AF78;
+    border-radius: 0%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 76%;
+    right: 7%;
+}
+
+.fmp-plant-item-city {
+	font-size: 12px;
+	text-transform: capitalize;
+}
+
+.fmp-price {
+	color: #16AF78;
+}
