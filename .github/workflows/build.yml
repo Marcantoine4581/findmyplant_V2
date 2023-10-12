@@ -20,24 +20,24 @@ jobs:
         node-version: [16.x, 18.x]
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
 
-    - name: NPM install, lint and test
-      run: |
-        npm install
-        npm run lint
-        npm run test
+      - name: NPM install, lint and test
+        run: |
+          npm ci
+          npm run lint
+          npm run test
 
-    env:
-      MONGODB_URI: ${{ secrets.MONGODB_URI }}  
-      SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}  
-      CLOUD_NAME: ${{ secrets.CLOUD_NAME }}
-      CLOUD_KEY: ${{ secrets.CLOUD_KEY }}
-      CLOUD_SECRET_KEY: ${{ secrets.CLOUD_SECRET_KEY }}
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}  
+          SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}  
+          CLOUD_NAME: ${{ secrets.CLOUD_NAME }}
+          CLOUD_KEY: ${{ secrets.CLOUD_KEY }}
+          CLOUD_SECRET_KEY: ${{ secrets.CLOUD_SECRET_KEY }}
