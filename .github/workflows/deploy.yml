@@ -1,0 +1,30 @@
+name: findmyplant-api CD
+
+on:
+  push:
+    branch:
+      - main
+  pull_request:
+    branch:
+      - main
+
+jobs:
+  build:
+    name: Prod
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.14
+        with:
+          appdir: "backend"
+          heroku_api_key: ${{ secrets.HEROKU_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
+
+        env:
+          MONGODB_PROD: ${{ secrets.MONGODB_PROD }}  
+          SECRET_TOKEN: ${{ secrets.SECRET_TOKEN }}  
+          CLOUD_NAME: ${{ secrets.CLOUD_NAME }}
+          CLOUD_KEY: ${{ secrets.CLOUD_KEY }}
+          CLOUD_SECRET_KEY: ${{ secrets.CLOUD_SECRET_KEY }}
