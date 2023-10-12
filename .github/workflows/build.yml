@@ -8,6 +8,10 @@ on:
 
 jobs:
   build:
+    defaults:
+      run:
+        working-directory: backend
+
     name: Test
     runs-on: ubuntu-latest
 
