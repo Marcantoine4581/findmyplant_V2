@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
 const Product = require('../models/Product');
+const cloudinary = require('../config/cloudinaryConfig');
+const cloudinaryPublicId = require('../utils/cloudinary');
 
 class UsersController {
   static async getAllUser(req, res) {
@@ -58,6 +60,43 @@ class UsersController {
         .catch((error) => res.status(400).json({ error }));
     }
   }
+
+  static async deleteUser(req, res) {
+    // Find the user by ID
+    User.findOne({ _id: req.params.id })
+      .then((user) => {
+        // Check if user exist
+        if (!user) {
+          return res.status(404).json({ message: 'Utilisateur introuvable' });
+        }
+        // Find all product from user
+        Product.find({ userId: user._id })
+          // Then for each product:
+          .then((result) => result.forEach((product) => {
+            const publicId = cloudinaryPublicId(product);
+            console.log(publicId);
+
+            // Delete file from Cloudinary
+            cloudinary.uploader.destroy(publicId)
+              .then((result) => {
+                console.log(result);
+
+                // Then Delete file in the DB.
+                Product.deleteOne({ _id: req.params.id })
+                  .then((product) => console.log(`Product ${product._id} deleted in DB`))
+                  .catch((error) => res.status(400).json({ message: error.message }));
+              })
+              .catch((error) => res.status(500).json({ message: error.message }));
+          }))
+          .catch((error) => res.status(400).json({ message: error.message }));
+
+        User.deleteOne({ _id: req.params.id })
+          .then(() => res.status(200).json({ message: 'User deleted!' }))
+          .catch((error) => res.status(400).json({ message: error.message }));
+      })
+      .catch((error) => res.status(400).json({ message: error.message }));
+  }
+
 }
 
 module.exports = UsersController;

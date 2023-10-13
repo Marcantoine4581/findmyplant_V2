@@ -1,19 +1,50 @@
+POST http://localhost:5000/api/products
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="image"; filename="character-5467892_640.jpg"
+Content-Type: image/jpeg
+
+< ./image_test/character-5467892_640.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="plantName"
+
+plante test
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="userId"
+
+65296c3362f12d73148ddaa2
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="condition"
+
+Je vends
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="price"
+
+500
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="comment"
+
+oulala
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+###
 GET http://localhost:5000/api/products
 
 ###
 GET http://localhost:5000/api/products/6498a461d62f0211b025aefb
 
 ###
-DELETE http://localhost:5000/api/products/6527c73a4f1dafc92efc7716
+DELETE http://localhost:5000/api/products/65294a6301817f12b4eae804
 
-###
+### 
 POST http://localhost:5000/api/auth/signup
 content-type: application/json
 
 {
   "userName": "marc",
   "email": "marc@gmail.com",
-  "password": "123456",
+  "password": "12345",
   "adress": {
     "street": "",
     "city": "Paris",
@@ -23,12 +54,15 @@ content-type: application/json
 }
 
 ###
+DELETE http://localhost:5000/api/user/65298a13c4ee78520f06f585
+
+###
 POST http://localhost:5000/api/auth/login
 content-type: application/json
 
 {
-  "email": "maurice@gmail.com",
-  "password": "123"
+  "email": "marc@gmail.com",
+  "password": "123456"
 }
 
 ###

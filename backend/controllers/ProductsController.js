@@ -1,6 +1,7 @@
 const fs = require('fs');
 const cloudinary = require('../config/cloudinaryConfig');
 const Product = require('../models/Product');
+const cloudinaryPublicId = require('../utils/cloudinary');
 
 class ProductsController {
   static async getAllProducts(req, res) {
@@ -52,9 +53,7 @@ class ProductsController {
         const existingProduct = await Product.findOne({ _id: req.params.id });
         const oldImagePath = existingProduct.imageUrl;
         if (oldImagePath) {
-          const filenameAndExt = oldImagePath.split('/products/')[1];
-          const filename = filenameAndExt.split('.')[0];
-          const publicId = `products/${filename}`;
+          const publicId = cloudinaryPublicId(oldImagePath);
           console.log(publicId);
           cloudinary.uploader.destroy(publicId).then((result) => {
             console.log(result);
@@ -103,16 +102,19 @@ class ProductsController {
   static async deleteProduct(req, res) {
     Product.findOne({ _id: req.params.id })
       .then((product) => {
-        const filenameAndExt = product.imageUrl.split('/products/')[1];
-        const filename = filenameAndExt.split('.')[0];
-        const publicId = `products/${filename}`;
+        const publicId = cloudinaryPublicId(product);
         console.log(publicId);
-        cloudinary.uploader.destroy(publicId).then((result) => {
-          console.log(result);
-          Product.deleteOne({ _id: req.params.id })
-            .then(() => res.status(200).json({ message: 'Deleted!' }))
-            .catch((error) => res.status(400).json({ error }));
-        });
+
+        // Delete file from Cloudinary
+        cloudinary.uploader.destroy(publicId)
+          .then((result) => {
+            console.log(result);
+            // Then Delete file in the DB.
+            Product.deleteOne({ _id: req.params.id })
+              .then(() => res.status(200).json({ message: 'Deleted!' }))
+              .catch((error) => res.status(400).json({ message: error.message }));
+          })
+          .catch((error) => res.status(500).json({ error }));
       })
       .catch((error) => {
         res.status(500).json({ error });

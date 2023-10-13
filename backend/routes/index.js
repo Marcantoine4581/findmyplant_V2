@@ -16,6 +16,7 @@ router.get('/api/user', UsersController.getAllUser);
 router.get('/api/user/:id', UsersController.getOneUser);
 router.get('/api/user/:id/products', UsersController.getAllProductByUser);
 router.put('/api/user/:id', UsersController.modifyUser);
+router.delete('/api/user/:id', UsersController.deleteUser);
 
 // Products routes
 router.get('/api/products', ProductsController.getAllProducts);
