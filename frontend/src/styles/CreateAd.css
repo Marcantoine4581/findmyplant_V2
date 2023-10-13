@@ -1,0 +1,36 @@
+.createAd-wrapper {
+    max-width: 800px;
+    border: solid #16AF78 1px;
+    margin-top: 80px;
+    border-radius: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.createdAd-title {
+    display: flex;
+    color: #16AF78;
+    justify-content: center;
+}
+
+.createAd-group {
+    margin-top: 10px;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.price {
+    max-width: 300px;
+    align-items: center;
+}
+
+.text-price {
+    margin-bottom: 0;
+    margin-right: 15px;
+}
+
+.createAd-input {
+    margin-bottom: 0;
+}
