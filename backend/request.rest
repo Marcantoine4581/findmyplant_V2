@@ -13,7 +13,7 @@ plante test
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="userId"
 
-65296c3362f12d73148ddaa2
+652a98fb24df079a0948a97a
 ------WebKitFormBoundary7MA4YWxkTrZu0gW
 Content-Disposition: form-data; name="condition"
 
@@ -35,7 +35,7 @@ GET http://localhost:5000/api/products
 GET http://localhost:5000/api/products/6498a461d62f0211b025aefb
 
 ###
-DELETE http://localhost:5000/api/products/65294a6301817f12b4eae804
+DELETE http://localhost:5000/api/products/652a7db3d8b86c3641edb78e
 
 ### 
 POST http://localhost:5000/api/auth/signup
@@ -44,7 +44,7 @@ content-type: application/json
 {
   "userName": "marc",
   "email": "marc@gmail.com",
-  "password": "12345",
+  "password": "123456",
   "adress": {
     "street": "",
     "city": "Paris",
@@ -54,7 +54,7 @@ content-type: application/json
 }
 
 ###
-DELETE http://localhost:5000/api/user/65298a13c4ee78520f06f585
+DELETE http://localhost:5000/api/user/652ac11cf87fad24db9f6519
 
 ###
 POST http://localhost:5000/api/auth/login
@@ -72,7 +72,7 @@ GET http://localhost:5000/api/user/
 GET http://localhost:5000/api/user/64989805957cd18617d16fc3
 
 ###
-GET http://localhost:5000/api/user/64989805957cd18617d16fc3/products
+GET http://localhost:5000/api/user/652aac272aca471b31a16ae1/products
 
 
 

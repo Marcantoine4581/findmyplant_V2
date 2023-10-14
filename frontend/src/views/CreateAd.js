@@ -21,7 +21,7 @@ function CreateAd() {
     condition: "",
     price: "",
     comment: "",
-    image: null
+    image: []
   });
   const navigate = useNavigate();
 
@@ -33,7 +33,8 @@ function CreateAd() {
   }
 
   function handleImageUpload(e) {
-    const file = e.target.files[0];
+    const file = e.target.files;
+    console.log(file);
     updateForm({ image: file });
   };
 
@@ -49,13 +50,20 @@ function CreateAd() {
     formData.append("condition", form.condition);
     formData.append("price", form.price);
     formData.append("comment", form.comment);
-    formData.append("image", form.image);
 
+  
+    for (let i = 0; i < form.image.length; i++) {
+      formData.append("image", form.image[i]);
+    }
+
+    console.log(...formData);
+    
     await fetch(`${apiUrl}${endpointproduct}`, {
       method: "POST",
       body: formData
     })
       .catch(error => {
+        console.log(error);
         window.alert(error);
         return;
       });
@@ -158,6 +166,7 @@ function CreateAd() {
               className="createAd-input"
               type="file"
               accept="image/*"
+              multiple
               onChange={handleImageUpload}
             />
           </Form.Group>

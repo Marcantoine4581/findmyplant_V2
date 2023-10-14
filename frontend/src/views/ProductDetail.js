@@ -19,6 +19,7 @@ export default function ProductDetail() {
     axios.get(`${apiUrl}${endpointproduct}` + id)
       .then(res => {
         setData(res.data.product)
+        console.log(res.data.product)
       })
       .catch(error => console.log(error))
   }, [id, apiUrl, endpointproduct]);
@@ -33,8 +34,8 @@ export default function ProductDetail() {
       <div className='plant-detail-wrapper'>
         <div>
           <div className='plant-detail-cover-background'>
-            <a href={data.imageUrl}>
-              <img src={data.imageUrl} alt="image_plante" />
+            <a href={data.imageUrl[0]}>
+              <img src={data.imageUrl[0]} alt="image_plante" />
             </a>
           </div>
           <div className='plant-detail-name-price-condition'>

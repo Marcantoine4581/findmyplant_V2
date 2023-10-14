@@ -62,41 +62,38 @@ class UsersController {
   }
 
   static async deleteUser(req, res) {
-    // Find the user by ID
-    User.findOne({ _id: req.params.id })
-      .then((user) => {
-        // Check if user exist
-        if (!user) {
-          return res.status(404).json({ message: 'Utilisateur introuvable' });
-        }
-        // Find all product from user
-        Product.find({ userId: user._id })
-          // Then for each product:
-          .then((result) => result.forEach((product) => {
-            const publicId = cloudinaryPublicId(product);
+    try {
+      // Find the user by ID
+      const user = await User.findOne({ _id: req.params.id });
+      if (!user) {
+        return res.status(404).json({ message: 'Utilisateur introuvable' });
+      }
+
+      const products = await Product.find({ userId: user._id });
+      if (products.length > 0) {
+        products.forEach(async (product) => {
+          await product.imageUrl.forEach(async (image) => {
+            const publicId = cloudinaryPublicId(image);
             console.log(publicId);
 
-            // Delete file from Cloudinary
-            cloudinary.uploader.destroy(publicId)
-              .then((result) => {
-                console.log(result);
-
-                // Then Delete file in the DB.
-                Product.deleteOne({ _id: req.params.id })
-                  .then((product) => console.log(`Product ${product._id} deleted in DB`))
-                  .catch((error) => res.status(400).json({ message: error.message }));
-              })
-              .catch((error) => res.status(500).json({ message: error.message }));
-          }))
-          .catch((error) => res.status(400).json({ message: error.message }));
-
-        User.deleteOne({ _id: req.params.id })
-          .then(() => res.status(200).json({ message: 'User deleted!' }))
-          .catch((error) => res.status(400).json({ message: error.message }));
-      })
-      .catch((error) => res.status(400).json({ message: error.message }));
+            const result = await cloudinary.uploader.destroy(publicId);
+            console.log(result);
+            if (!result) {
+              return res.status(500).json({ message: 'Une erreur s\'est produite lors de la suppression de l\'image' });
+            }
+            console.log('Image supprimé de Cloudinary');
+          });
+        });
+        const deletedProducts = await Product.deleteMany({ userId: user._id });
+        console.log(deletedProducts);
+      }
+      User.deleteOne({ _id: req.params.id })
+        .then(() => res.status(200).json({ message: 'User deleted!' }))
+        .catch((error) => res.status(400).json({ message: error.message }));
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   }
-
 }
 
 module.exports = UsersController;

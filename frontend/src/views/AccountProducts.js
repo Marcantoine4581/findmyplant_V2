@@ -64,7 +64,7 @@ function AccountProducts() {
           {data.map(({ _id, imageUrl, plantName, price, condition, status, createAt }, index) => (
             <div className='accountProducts-details' key={`${_id}-${index}`}>
               <div className='accountProducts-mobile'>
-                <div className='plant-cover' style={{ backgroundImage: `url(${imageUrl})` }}></div>
+                <div className='plant-cover' style={{ backgroundImage: `url(${imageUrl[0]})` }}></div>
                 <div className='accountProducts-details-text'>
                   <p>{plantName}</p>
                   {!price ? <p>{condition}</p> : <p>Prix : {price} €</p>}

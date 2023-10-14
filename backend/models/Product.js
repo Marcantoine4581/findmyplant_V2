@@ -10,7 +10,7 @@ const productSchema = new Schema({
   comment: { type: String },
   createAt: { type: Date, default: Date.now, required: true },
   status: { type: Boolean, default: true, require: true },
-  imageUrl: { type: String },
+  imageUrl: { type: [String] },
 });
 
 module.exports = mongoose.model('Product', productSchema);

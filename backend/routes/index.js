@@ -21,8 +21,8 @@ router.delete('/api/user/:id', UsersController.deleteUser);
 // Products routes
 router.get('/api/products', ProductsController.getAllProducts);
 router.get('/api/products/:id', ProductsController.getOneProduct);
-router.post('/api/products', multer.single('image'), ProductsController.createOneProduct);
-router.put('/api/products/:id', multer.single('image'), ProductsController.modifyProduct);
+router.post('/api/products', multer.array('image'), ProductsController.createOneProduct);
+router.put('/api/products/:id', multer.array('image'), ProductsController.modifyProduct);
 router.delete('/api/products/:id', ProductsController.deleteProduct);
 
 // Images routes
