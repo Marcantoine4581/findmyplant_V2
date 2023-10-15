@@ -1,8 +1,9 @@
-import NavBar from '../components/NavBar'
+import NavBar from '../components/NavBar';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../styles/Account.css'
+import '../styles/Account.css';
 import '../styles/ErrorMessage.css';
+import { accountService } from '../services/accountService';
 
 export default function Account() {
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -20,42 +21,50 @@ export default function Account() {
             street: '',
             city: '',
             postalCode: '',
-            country: ''
-        }
+            country: '',
+        },
     });
+    const token = accountService.getToken();
 
     useEffect(() => {
-        axios.get(`${apiUrl}${endpoint}` + uid)
-            .then(res => {
+        axios
+            .get(`${apiUrl}${endpoint}` + uid, {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((res) => {
                 setData(res.data.user);
             })
-            .catch(error => console.log(error))
-    }, [uid, apiUrl, endpoint]);
+            .catch((error) => console.log(error));
+    }, [uid, apiUrl, endpoint, token]);
 
     function onSubmit(e) {
-        e.preventDefault()
-        if (password === "" && (password === password2)) {
-            axios.put(`${apiUrl}${endpoint}` + uid, data)
-                .then(res => {
+        e.preventDefault();
+        if (password === '' && password === password2) {
+            axios
+                .put(`${apiUrl}${endpoint}` + uid, data, {
+                    headers: { Authorization: `Bearer ${token}` },
+                })
+                .then((res) => {
                     console.log('Mise à jour réussie !');
                     setMessage(res.data.message);
                 })
-                .catch(error => console.log(error))
-        } else if (password !== "" && (password === password2)) {
+                .catch((error) => console.log(error));
+        } else if (password !== '' && password === password2) {
             const updatedData = {
                 ...data,
-                password: password
+                password: password,
             };
             setData(updatedData);
 
-            axios.put(`${apiUrl}${endpoint}` + uid, updatedData)
-                .then(res => {
+            axios
+                .put(`${apiUrl}${endpoint}` + uid, updatedData)
+                .then((res) => {
                     console.log('Mise à jour réussie !');
                     setMessage(res.data.message);
                 })
-                .catch(error => console.log(error))
+                .catch((error) => console.log(error));
         } else {
-            setPasswordError("Les mots de passe ne correspondent pas");
+            setPasswordError('Les mots de passe ne correspondent pas');
         }
     }
 
@@ -64,54 +73,101 @@ export default function Account() {
             <NavBar />
             <div className="account-wrapper">
                 <h1 className="title">Mes informations</h1>
-                <form className='account-form' onSubmit={onSubmit}>
-                    <label className='label-input'>
-                        Nom de l'utilisateur:
+                <form className="account-form" onSubmit={onSubmit}>
+                    <label className="label-input">
+                        Nom de l&apos;utilisateur:
                         <input
                             type="text"
                             value={data.userName}
-                            onChange={e => setData({ ...data, userName: e.target.value })}
+                            onChange={(e) => setData({ ...data, userName: e.target.value })}
                         />
                     </label>
-                    <label className='label-input'>
+                    <label className="label-input">
                         Email:
-                        <input type="text" value={data.email} onChange={e => setData({ ...data, email: e.target.value })} />
+                        <input
+                            type="text"
+                            value={data.email}
+                            onChange={(e) => setData({ ...data, email: e.target.value })}
+                        />
                     </label>
-                    <label className='label-input'>
+                    <label className="label-input">
                         Nouveau mot de passe:
-                        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+                        <input
+                            type="password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
                     </label>
-                    {passwordError && <p className='errorMessage'>{passwordError}</p>}
-                    <label className='label-input'>
+                    {passwordError && <p className="errorMessage">{passwordError}</p>}
+                    <label className="label-input">
                         Confirmation du mot de passe:
-                        <input type="password" value={password2} onChange={e => setPassword2(e.target.value)} />
+                        <input
+                            type="password"
+                            value={password2}
+                            onChange={(e) => setPassword2(e.target.value)}
+                        />
                     </label>
-                    {passwordError && <p className='errorMessage'>{passwordError}</p>}
+                    {passwordError && <p className="errorMessage">{passwordError}</p>}
 
                     <p>Adresse: </p>
-                    <label className='label-input'>
+                    <label className="label-input">
                         Rue:
-                        <input type="text" value={data.adress.street} onChange={e => setData({ ...data, adress: { ...data.adress, street: e.target.value } })} />
+                        <input
+                            type="text"
+                            value={data.adress.street}
+                            onChange={(e) =>
+                                setData({
+                                    ...data,
+                                    adress: { ...data.adress, street: e.target.value },
+                                })
+                            }
+                        />
                     </label>
-                    <label className='label-input'>
+                    <label className="label-input">
                         Ville:
-                        <input type="text" value={data.adress.city} onChange={e => setData({ ...data, adress: { ...data.adress, city: e.target.value } })} />
+                        <input
+                            type="text"
+                            value={data.adress.city}
+                            onChange={(e) =>
+                                setData({
+                                    ...data,
+                                    adress: { ...data.adress, city: e.target.value },
+                                })
+                            }
+                        />
                     </label>
-                    <label className='label-input'>
+                    <label className="label-input">
                         Code postal:
-                        <input type="text" value={data.adress.postalCode} onChange={e => setData({ ...data, adress: { ...data.adress, postalCode: e.target.value } })} />
+                        <input
+                            type="text"
+                            value={data.adress.postalCode}
+                            onChange={(e) =>
+                                setData({
+                                    ...data,
+                                    adress: { ...data.adress, postalCode: e.target.value },
+                                })
+                            }
+                        />
                     </label>
-                    <label className='label-input'>
+                    <label className="label-input">
                         Pays:
-                        <input type="text" value={data.adress.country} onChange={e => setData({ ...data, adress: { ...data.adress, country: e.target.value } })} />
+                        <input
+                            type="text"
+                            value={data.adress.country}
+                            onChange={(e) =>
+                                setData({
+                                    ...data,
+                                    adress: { ...data.adress, country: e.target.value },
+                                })
+                            }
+                        />
                     </label>
-                    <div className='account-button'>
+                    <div className="account-button">
                         <button type="submit">Mettre à jour</button>
                     </div>
                 </form>
                 {message && <p>{message}</p>}
             </div>
         </div>
-
-    )
+    );
 }

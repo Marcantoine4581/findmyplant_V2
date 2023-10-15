@@ -61,6 +61,7 @@ class UsersController {
     }
   }
 
+  /* eslint-disable consistent-return */
   static async deleteUser(req, res) {
     try {
       // Find the user by ID

@@ -1,26 +1,30 @@
 let saveToken = (token) => {
-    localStorage.setItem('token', token)
-}
+    localStorage.setItem('token', token);
+};
+
+let getToken = () => {
+    return localStorage.getItem('token');
+};
 
 let saveUserId = (uid) => {
-    localStorage.setItem('userId', uid)
-}
+    localStorage.setItem('userId', uid);
+};
 
 let getUserId = () => {
-    localStorage.getItem('userId')
-}
+    return localStorage.getItem('userId');
+};
 
 let logout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('userId')
-}
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+};
 
 let isLogged = () => {
-    let token = localStorage.getItem('token')
+    let token = localStorage.getItem('token');
 
-    return !!token
-}
+    return !!token;
+};
 
 export const accountService = {
-    saveToken, logout, isLogged, saveUserId, getUserId
-}
+    saveToken, getToken, logout, isLogged, saveUserId, getUserId
+};
