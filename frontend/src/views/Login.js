@@ -1,11 +1,11 @@
-import NavBar from '../components/NavBar';
-import React, { useState } from 'react';
-import '../styles/Login.css';
-import '../styles/ErrorMessage.css';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-
+import NavBar from '../components/NavBar';
 import { accountService } from '../services/accountService';
+import '../styles/Login.css';
+import '../styles/ErrorMessage.css';
+
 
 export default function Login() {
     const apiUrl = process.env.REACT_APP_API_URL;
@@ -14,13 +14,6 @@ export default function Login() {
     const [password, setPassword] = useState('123456');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
-
-    /* const setAuthToken = (token) => {
-      
-        // Appliquer le token à l'en-tête de chaque requête
-        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-      
-    }; */
 
     const handleSubmit = (e) => {
         e.preventDefault();

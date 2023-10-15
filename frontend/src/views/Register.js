@@ -1,5 +1,5 @@
 import NavBar from '../components/NavBar';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../styles/Register.css';
 import '../styles/ErrorMessage.css';
 import { useNavigate } from 'react-router';
@@ -75,7 +75,7 @@ export default function Signup() {
                 <h1 className="title">Créer un compte</h1>
                 <form onSubmit={handleSubmit}>
                     <label>
-                        <p>Nom de l'utilisateur</p>
+                        <p>Nom de l&apos;utilisateur</p>
                         <input
                             type="text"
                             value={data.userName}

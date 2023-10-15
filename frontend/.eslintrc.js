@@ -10,6 +10,9 @@ module.exports = {
         'plugin:react-hooks/recommended'
 
     ],
+    'globals': {
+        'process': true,
+    },
     'overrides': [
         {
             'env': {
@@ -26,6 +29,11 @@ module.exports = {
     'parserOptions': {
         'ecmaVersion': 'latest',
         'sourceType': 'module'
+    },
+    'settings': {
+        'react': {
+            'version': 'detect',
+        },
     },
     'plugins': [
         'react'
