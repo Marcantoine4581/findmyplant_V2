@@ -50,7 +50,7 @@ class UsersController {
             },
             _id: req.params.id,
           })
-            .then(() => res.status(200).json({ message: 'Modified!' }))
+            .then(() => res.status(200).json({ message: 'Profil mis à jour avec succès' }))
             .catch((error) => res.status(400).json({ error }));
         })
         .catch((error) => res.status(500).json({ error }));

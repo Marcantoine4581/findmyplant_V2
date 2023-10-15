@@ -53,7 +53,7 @@ describe('/ Test User Collection', () => {
     const user = {
       "userName": "Maurice",
       "email": "maurice@gmail.com",
-      "password": "123",
+      "password": "123456",
       "adress": {
         "street": "",
         "city": "Paris",
@@ -67,7 +67,7 @@ describe('/ Test User Collection', () => {
       .end((err, res) => {
         res.should.have.status(201);
         const actualMessage = res.body.message;
-        expect(actualMessage).to.be.equal('Utilisateur créé !');
+        expect(actualMessage).to.be.equal('Bienvenue Maurice');
         done();
       });
   });
@@ -78,7 +78,7 @@ describe('/ Test User Collection', () => {
     const user = {
       "userName": "Maurice",
       "email": "maurice@gmail.com",
-      "password": "123",
+      "password": "123456",
       "adress": {
         "street": "",
         "city": "Paris",
@@ -94,6 +94,46 @@ describe('/ Test User Collection', () => {
         const actualMessage = res.body.message;
         expect(actualMessage).to.be.equal('Cet e-mail est déjà utilisé.');
         done();
+      });
+  });
+
+  it('test the login', (done) => {
+
+    const login = {
+      "email": "maurice@gmail.com",
+      "password": "123456"
+    }
+    chai.request(server)
+      .post('/api/auth/login')
+      .send(login)
+      .end((err, res) => {
+        console.log('this runs the login part');
+        res.body.should.be.an('object');
+        var token = res.body.token;
+        var userId = res.body.userId;
+
+        const userUpdate = {
+          "userName": "Jean",
+          "email": "maurice@gmail.com",
+          "password": "123456",
+          "adress": {
+            "street": "10 rue de la tour",
+            "city": "Paris",
+            "postalCode": "75010",
+            "country": "France"
+          }
+        }
+        chai.request(server)
+          .put(`/api/user/${userId}`)
+          .set("Authorization", `Bearer ${token}`)
+          .send(userUpdate)
+          .end((err, res) => {
+            res.should.have.status(200);
+            const actualMessage = res.body.message;
+            expect(actualMessage).to.be.equal('Profil mis à jour avec succès');
+            done();
+          });
+        
       });
   });
 

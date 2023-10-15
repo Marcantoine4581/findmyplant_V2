@@ -35,7 +35,7 @@ GET http://localhost:5000/api/products
 GET http://localhost:5000/api/products/6498a461d62f0211b025aefb
 
 ###
-DELETE http://localhost:5000/api/products/652a7db3d8b86c3641edb78e
+DELETE http://localhost:5000/api/products/652bcaec7b22a12ced3f89ee
 
 ### 
 POST http://localhost:5000/api/auth/signup
