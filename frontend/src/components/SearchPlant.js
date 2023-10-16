@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
-import PlantData from '../noms.json';
+import PlantData from '../listPlants.json';
 import '../styles/Search.css';
 
 
 function SearchPlant({ searchTerm, handleSearch }) {
-    const uniquePlantData = Array.from(new Set(PlantData.map(op => op.nom_francais)));
-    const filteredOptions = uniquePlantData.filter(nom_francais =>
+    const filteredOptions = PlantData.filter(nom_francais =>
         nom_francais.toLowerCase().includes(searchTerm.toLowerCase())
     );
     const [selectedItem, setSelectedItem] = useState('');

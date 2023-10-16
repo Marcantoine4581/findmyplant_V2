@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import PlantData from '../noms.json';
+import PlantData from '../listPlants.json';
 import '../styles/Search.css';
 
 function Search({ searchTerm, setSearchTerm, handleSearch, searchCity, handleSearchCity, handleSearchButtonClick }) {
-    const uniquePlantData = Array.from(new Set(PlantData.map(op => op.nom_francais)));
-    const filteredOptions = uniquePlantData.filter(nom_francais =>
+    const filteredOptions = PlantData.filter(nom_francais =>
         nom_francais.toLowerCase().includes(searchTerm.toLowerCase())
     );
     const [selectedItem, setSelectedItem] = useState('');
