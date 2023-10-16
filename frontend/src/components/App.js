@@ -21,10 +21,26 @@ function App() {
                 } />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                <Route path="/account" element={<Account />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
-                <Route path="/account-annonces" element={<AccountProducts />} />
-                <Route path="/user/:id/modify-ad/:id" element={<ModifyAd />} />
+                <Route path="/account" element={
+                    <AuthenticatedRoute>
+                        <Account />
+                    </AuthenticatedRoute>
+                } />
+                <Route path="/product/:id" element={
+                    <AuthenticatedRoute>
+                        <ProductDetail />
+                    </AuthenticatedRoute>
+                } />
+                <Route path="/account-annonces" element={
+                    <AuthenticatedRoute>
+                        <AccountProducts />
+                    </AuthenticatedRoute>
+                } />
+                <Route path="/user/:id/modify-ad/:id" element={
+                    <AuthenticatedRoute>
+                        <ModifyAd />
+                    </AuthenticatedRoute>
+                } />
             </Routes>
         </BrowserRouter>
     );

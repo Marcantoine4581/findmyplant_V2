@@ -10,21 +10,19 @@ import '../styles/ErrorMessage.css';
 export default function Login() {
     const apiUrl = process.env.REACT_APP_API_URL;
     const endpointauth = process.env.REACT_APP_END_POINT_AUTH;
-    const [email, setEmail] = useState('marc@gmail.com');
-    const [password, setPassword] = useState('123456');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email, password);
 
         axios
             .post(`${apiUrl}${endpointauth}login`, { email, password })
             .then((res) => {
                 accountService.saveToken(res.data.token);
                 accountService.saveUserId(res.data.userId);
-                /* setAuthToken(res.data.token); */
                 navigate('/');
             })
             .catch((error) => {

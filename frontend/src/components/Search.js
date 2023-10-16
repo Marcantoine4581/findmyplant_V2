@@ -12,6 +12,7 @@ function Search({ searchTerm, setSearchTerm, handleSearch, searchCity, handleSea
 
 
     const handleDataItemClick = (nom) => {
+        console.log(nom);
         setSelectedItem(nom); // Update state with value of selected dataItem
         setShowResults(false);
     };
@@ -40,11 +41,11 @@ function Search({ searchTerm, setSearchTerm, handleSearch, searchCity, handleSea
             <div className='search-box'>
                 <label className='fmp-search-input' onClick={handleShowResults}>
                     <input
-                        list="plant"
+                        list='plant'
                         className='fmp-search-input-input'
-                        type="text"
+                        type='text'
                         value={selectedItem || searchTerm}
-                        placeholder="Rechercher une plante"
+                        placeholder='Rechercher une plante'
 
                         onChange={handleSearch}
                     />
@@ -83,12 +84,12 @@ function Search({ searchTerm, setSearchTerm, handleSearch, searchCity, handleSea
 }
 
 Search.propTypes = {
-    searchTerm: PropTypes.node.isRequired,
-    setSearchTerm: PropTypes.node.isRequired,
-    handleSearch: PropTypes.node.isRequired,
-    searchCity: PropTypes.node.isRequired,
-    handleSearchCity: PropTypes.node.isRequired,
-    handleSearchButtonClick: PropTypes.node.isRequired,
+    searchTerm: PropTypes.string,
+    setSearchTerm: PropTypes.func,
+    handleSearch: PropTypes.func,
+    searchCity: PropTypes.string,
+    handleSearchCity: PropTypes.func,
+    handleSearchButtonClick: PropTypes.func,
 };
 
 export default Search;
