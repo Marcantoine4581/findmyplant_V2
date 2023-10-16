@@ -7,6 +7,7 @@ const router = require('./routes/index');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+const DB_URL = process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI_PROD : process.env.MONGODB_URI_DEV;
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -15,18 +16,9 @@ app.use((req, res, next) => {
   next();
 });
 
-// Connect to the MongoDB using Mongoose
-if (process.env.NODE_ENV === 'development') {
-  mongoose.connect(process.env.MONGODB_URI_DEV)
-    .then(() => console.log('Connexion à MongoDB réussie!'))
-    .catch(() => console.log('Connexion à MongoDB échouée !'));
-}
-
-if (process.env.NODE_ENV === 'production') {
-  mongoose.connect(process.env.MONGODB_URI_PROD)
-    .then(() => console.log('Connexion à MongoDB réussie!'))
-    .catch(() => console.log('Connexion à MongoDB échouée !'));
-}
+mongoose.connect(DB_URL)
+  .then(() => console.log(`Connexion à MongoDB ${process.env.NODE_ENV} réussie !`))
+  .catch(() => console.log(`Echec de la connexion à MongoDB ${process.env.NODE_ENV} !`));
 
 app.use(express.json());
 app.use(morgan('dev'));
