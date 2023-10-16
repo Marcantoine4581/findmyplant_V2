@@ -74,8 +74,8 @@ function SearchPlant({ searchTerm, handleSearch }) {
 }
 
 SearchPlant.propTypes = {
-    searchTerm: PropTypes.node.isRequired,
-    handleSearch: PropTypes.node.isRequired,
+    searchTerm: PropTypes.string,
+    handleSearch: PropTypes.func,
 };
 
 export default SearchPlant;

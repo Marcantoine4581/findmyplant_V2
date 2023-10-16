@@ -55,8 +55,6 @@ function CreateAd() {
             formData.append('image', form.image[i]);
         }
 
-        console.log(...formData);
-
         await fetch(`${apiUrl}${endpointproduct}`, {
             method: 'POST',
             body: formData,

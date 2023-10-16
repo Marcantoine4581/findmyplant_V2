@@ -25,11 +25,11 @@ function Pagination({ currentPage, totalPages, onNextPage, onPrevPage, onGoToPag
 }
 
 Pagination.propTypes = {
-    currentPage: PropTypes.node.isRequired,
-    totalPages: PropTypes.node.isRequired,
-    onNextPage: PropTypes.node.isRequired,
-    onPrevPage: PropTypes.node.isRequired,
-    onGoToPage: PropTypes.node.isRequired,
+    currentPage: PropTypes.number,
+    totalPages: PropTypes.number,
+    onNextPage: PropTypes.func,
+    onPrevPage: PropTypes.func,
+    onGoToPage: PropTypes.func,
 };
 
 export default Pagination;

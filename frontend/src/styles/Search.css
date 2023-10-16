@@ -54,6 +54,7 @@
     
     .search-box {
         display: flex;
+        position: relative;
         flex-direction: column;
         text-align: center;
         margin: 0 10px;
@@ -73,8 +74,8 @@
         margin-top: 5px;
         position: absolute;
         z-index: 1;
-        width: 97%;
-        top: 18%;
+        width: 98%;
+        top: 45%;
         background-color: white;
         box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
         overflow: hidden;

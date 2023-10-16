@@ -15,15 +15,43 @@
     width: 600px;
     padding: 2px;
     background-color: rgb(229, 228, 228);
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
 }
 
+.left-arrow {
+    position: absolute;
+    background-color: rgba(229, 228, 228, 0.32);
+    border-radius: 50px;
+    top: 45%;
+    left: 10%;
+    color: #000000;
+}
+
+.right-arrow {
+    position: absolute;
+    background-color: rgba(229, 228, 228, 0.32);
+    border-radius: 50px;
+    top: 45%;
+    right: 10%;
+    color: #000000;
+}
+.block-icons {
+    position: absolute;
+    bottom: 2%;
+    display: flex;
+}
+.icon-per-image {
+    color: #16AF78;
+    margin: 0 10px;
+}
+
 .plant-detail-cover-background img {
     max-height: 400px;
-    max-width: 600px;
+    max-width: 550px;
     padding: 10px;
 }
 
