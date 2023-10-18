@@ -51,7 +51,7 @@ class AuthController {
         token: jwt.sign(
           { userId: userfound._id },
           process.env.SECRET_TOKEN,
-          { expiresIn: 60 * 2 },
+          { expiresIn: '12h' },
         ),
       });
     } catch (error) {

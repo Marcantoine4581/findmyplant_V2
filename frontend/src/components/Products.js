@@ -8,60 +8,55 @@ import '../styles/Products.css';
 function Products() {
     const apiUrl = process.env.REACT_APP_API_URL;
     const endpoint = process.env.REACT_APP_END_POINT_PRODUCTS;
+    const [totalProducts, setTotalProducts] = useState('');
     const [data, setData] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [searchCity, setSearchCity] = useState('');
-    const [filteredData, setFilteredData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(12); // Number of items per page
+    let [itemsPerPage, setItemsPerPage ] = useState(3); // Number of items per page
+    const [isSearchPending, setIsSearchPending] = useState(false);
 
 
     useEffect(() => {
-        fetch(`${apiUrl}${endpoint}`)
-            .then(response => response.json())
-            .then(data => {
-                setIsLoading(false);
-                // get products with the status "true"
-                const dataStatusTrue = data.product.filter(item => item.status === true);
-                const sortedData = dataStatusTrue.sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1));
-                setData(sortedData);
-                setFilteredData(sortedData);
-            });
-    }, [apiUrl, endpoint]);
-
-    const handleSearch = event => {
-        setSearchTerm(event.target.value);
-    };
+        if (!isSearchPending) {
+            fetch(`${apiUrl}${endpoint}?page=${currentPage}&limit=${itemsPerPage}&name=${searchTerm}&city=${searchCity}`)
+                .then(response => response.json())
+                .then(data => {
+                    setTotalProducts(data.totalProducts);
+                    setData(data.product);
+                    if (itemsPerPage > data.backendLimit) {
+                        setItemsPerPage(data.backendLimit);
+                    }
+                });
+        }
+    // eslint-disable-next-line
+    }, [apiUrl, endpoint, currentPage, itemsPerPage, isSearchPending]);
 
     const handleSearchCity = event => {
         setSearchCity(event.target.value);
     };
 
     const handleSearchButtonClick = () => {
-        const filtered = data.filter(item => {
-            if (searchTerm && searchCity) {
-                return (
-                    item.plantName.toLowerCase().includes(searchTerm.toLowerCase()) &&
-                    item.userId.adress.city.toLowerCase().includes(searchCity.toLowerCase())
-                );
-            } else if (searchTerm) {
-                return item.plantName.toLowerCase().includes(searchTerm.toLowerCase());
-            } else if (searchCity) {
-                return item.userId.adress.city.toLowerCase().includes(searchCity.toLowerCase());
-            }
-            return true; // if no criteria specified, return all elements.
-        });
-
-        setFilteredData(filtered);
+        setIsSearchPending(true);
+        setCurrentPage(1);
+        fetch(`${apiUrl}${endpoint}?page=1&limit=${itemsPerPage}&name=${searchTerm}&city=${searchCity}`)
+            .then(response => response.json())
+            .then(data => {
+                setTotalProducts(data.totalProducts);
+                setData(data.product);
+                if (itemsPerPage > data.backendLimit) {
+                    setItemsPerPage(data.backendLimit);
+                }
+            });
     };
+
     // Pagination part:
     // Calculate the total number of pages
-    const totalPages = Math.ceil(filteredData.length / itemsPerPage);
-
+    const totalPages = Math.ceil(totalProducts / itemsPerPage);
     // Function to go to the next page
     const nextPage = () => {
         if (currentPage < totalPages) {
+            setIsSearchPending(false);
             setCurrentPage(currentPage + 1);
         }
     };
@@ -69,6 +64,7 @@ function Products() {
     // Function to go to the previous page
     const prevPage = () => {
         if (currentPage > 1) {
+            setIsSearchPending(false);
             setCurrentPage(currentPage - 1);
         }
     };
@@ -76,39 +72,23 @@ function Products() {
     // Function to jump to a specific page
     const goToPage = (page) => {
         if (page >= 1 && page <= totalPages) {
+            setIsSearchPending(false);
             setCurrentPage(page);
         }
     };
-
-    // Calculate the start and end index of the elements displayed on the current page
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-
-    // Get the elements to display on the current page
-    const itemsToDisplay = filteredData.slice(startIndex, endIndex);
-
-
+ 
     return (
         <div>
-
             <Search
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}
-                handleSearch={handleSearch}
                 searchCity={searchCity}
                 handleSearchCity={handleSearchCity}
                 handleSearchButtonClick={handleSearchButtonClick}
             />
 
-            {isLoading &&
-                <div>
-                    <p className='loading'> Ce site web est un projet et le serveur s&apos;arrête en cas d&apos;inactivité.</p>
-                    <p className='loading'> Merci de patienter quelques secondes.</p>
-                </div>
-            }
-
             <article className='fmp-plant-list'>
-                {itemsToDisplay.map(({ _id, userId, imageUrl, plantName, price, condition }) => (
+                {data.map(({ _id, userId, imageUrl, plantName, price, condition }) => (
                     <Link to={`/product/${_id}`} key={_id}>
                         <PlantItem
                             _id={_id}

@@ -5,6 +5,8 @@ const auth = require('../middleware/auth');
 const ProductsController = require('../controllers/ProductsController');
 const AuthController = require('../controllers/AuthController');
 const UsersController = require('../controllers/UsersController');
+const paginatedResults = require('../middleware/pagination');
+const Product = require('../models/Product');
 
 const router = express.Router();
 
@@ -20,7 +22,7 @@ router.put('/api/user/:id', auth, UsersController.modifyUser);
 router.delete('/api/user/:id', auth, UsersController.deleteUser);
 
 // Products routes
-router.get('/api/products', ProductsController.getAllProducts);
+router.get('/api/products', paginatedResults(Product), ProductsController.getAllProducts);
 router.get('/api/products/:id', ProductsController.getOneProduct);
 router.post('/api/products', auth, multer.array('image'), ProductsController.createOneProduct);
 router.put('/api/products/:id', auth, multer.array('image'), ProductsController.modifyProduct);

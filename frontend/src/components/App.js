@@ -26,11 +26,7 @@ function App() {
                         <Account />
                     </AuthenticatedRoute>
                 } />
-                <Route path="/product/:id" element={
-                    <AuthenticatedRoute>
-                        <ProductDetail />
-                    </AuthenticatedRoute>
-                } />
+                <Route path="/product/:id" element={<ProductDetail />} />
                 <Route path="/account-annonces" element={
                     <AuthenticatedRoute>
                         <AccountProducts />

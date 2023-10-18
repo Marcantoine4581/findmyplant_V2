@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import PlantData from '../listPlants.json';
 import '../styles/Search.css';
 
-function Search({ searchTerm, setSearchTerm, handleSearch, searchCity, handleSearchCity, handleSearchButtonClick }) {
+function Search({ searchTerm, setSearchTerm, searchCity, handleSearchCity, handleSearchButtonClick }) {
     const filteredOptions = PlantData.filter(nom_francais =>
         nom_francais.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -36,6 +36,11 @@ function Search({ searchTerm, setSearchTerm, handleSearch, searchCity, handleSea
         }
     }, [searchTerm, filteredOptions]);
 
+    const handleSearch = event => {
+        setSearchTerm(event.target.value);
+        console.log(searchTerm);
+    };
+
     return (
         <div className='fmp-search'>
             <div className='search-box'>
@@ -46,7 +51,6 @@ function Search({ searchTerm, setSearchTerm, handleSearch, searchCity, handleSea
                         type='text'
                         value={selectedItem || searchTerm}
                         placeholder='Rechercher une plante'
-
                         onChange={handleSearch}
                     />
                 </label>
@@ -86,7 +90,7 @@ function Search({ searchTerm, setSearchTerm, handleSearch, searchCity, handleSea
 Search.propTypes = {
     searchTerm: PropTypes.string,
     setSearchTerm: PropTypes.func,
-    handleSearch: PropTypes.func,
+    // handleSearch: PropTypes.func,
     searchCity: PropTypes.string,
     handleSearchCity: PropTypes.func,
     handleSearchButtonClick: PropTypes.func,
