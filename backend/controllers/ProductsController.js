@@ -4,11 +4,8 @@ const Product = require('../models/Product');
 const cloudinaryPublicId = require('../utils/cloudinary');
 
 class ProductsController {
-  static async getAllProducts(req, res) {
-    await Product.find()
-      .populate('userId')
-      .then((product) => res.status(200).json({ product }))
-      .catch((error) => res.status(400).json({ error }));
+  static getAllProducts(req, res) {
+    res.status(200).json(res.resultsPaginatedAndFiltered);
   }
 
   static async getOneProduct(req, res) {
