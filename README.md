@@ -1,4 +1,5 @@
 # Findmyplant_v2
+![image](https://github.com/Marcantoine4581/findmyplant_V2/assets/113889488/ce4e5942-0bd5-42b7-b4f6-3d1d22d883a4)
 
 ## 💡 Story
 Many people are looking for specifical plants or flowers which sometimes are not easy to find locally.
