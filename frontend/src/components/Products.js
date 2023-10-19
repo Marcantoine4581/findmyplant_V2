@@ -88,20 +88,24 @@ function Products() {
             />
 
             <article className='fmp-plant-list'>
-                {data.map(({ _id, userId, imageUrl, plantName, price, condition }) => (
-                    <Link to={`/product/${_id}`} key={_id}>
-                        <PlantItem
-                            _id={_id}
-                            userName={userId.userName}
-                            imageUrl={imageUrl}
-                            plantName={plantName}
-                            price={price}
-                            condition={condition}
-                            city={userId.adress.city}
-                            postalCode={userId.adress.postalCode}
-                        />
-                    </Link>
-                ))}
+                {data.length > 0 ? (
+                    data.map(({ _id, userId, imageUrl, plantName, price, condition }) => (
+                        <Link to={`/product/${_id}`} key={_id}>
+                            <PlantItem
+                                _id={_id}
+                                userName={userId.userName}
+                                imageUrl={imageUrl}
+                                plantName={plantName}
+                                price={price}
+                                condition={condition}
+                                city={userId.adress.city}
+                                postalCode={userId.adress.postalCode}
+                            />
+                        </Link>
+                    ))
+                ) : (
+                    <p>Aucune plante n&apos;a été trouvée.</p>
+                )}
             </article>
 
             {/* Show pagination */}

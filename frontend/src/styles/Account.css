@@ -56,3 +56,17 @@
     padding: 5px;
     width: 150px;
 }
+
+.danger-zone {
+    color: red;
+    margin-top: 50px;
+    text-align: center;
+}
+
+.delete-account {
+    color: red;
+    background-color: white;
+    border-radius: 5px;
+    border: solid red 1px;
+    font-size: small;
+}
