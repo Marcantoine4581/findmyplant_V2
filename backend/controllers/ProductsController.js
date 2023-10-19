@@ -12,7 +12,7 @@ class ProductsController {
     await Product.findOne({ _id: req.params.id })
       .populate('userId')
       .then((product) => res.status(200).json({ product }))
-      .catch((error) => res.status(400).json({ error }));
+      .catch((error) => res.status(400).json({ message: error.message }));
   }
 
   static async createOneProduct(req, res) {
