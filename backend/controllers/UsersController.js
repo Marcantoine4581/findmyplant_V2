@@ -89,7 +89,7 @@ class UsersController {
         console.log(deletedProducts);
       }
       User.deleteOne({ _id: req.params.id })
-        .then(() => res.status(200).json({ message: 'User deleted!' }))
+        .then(() => res.status(200).json({ message: 'User deleted !' }))
         .catch((error) => res.status(400).json({ message: error.message }));
     } catch (error) {
       res.status(500).json({ message: error.message });

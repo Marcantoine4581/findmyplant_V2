@@ -1,6 +1,7 @@
 import NavBar from '../components/NavBar';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 import '../styles/Account.css';
 import '../styles/ErrorMessage.css';
 import { accountService } from '../services/accountService';
@@ -25,6 +26,7 @@ export default function Account() {
         },
     });
     const token = accountService.getToken();
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios
@@ -67,6 +69,21 @@ export default function Account() {
             setPasswordError('Les mots de passe ne correspondent pas');
         }
     }
+
+    const handleDeleteUser = (userId) => {
+        axios
+            .delete(`${apiUrl}${endpoint}${userId}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((response) => {
+                console.log(response);
+            })
+            .catch((error) => {
+                console.error('Erreur lors de la suppression du produit :', error);
+            });
+        navigate('/');
+        accountService.logout();
+    };
 
     return (
         <div>
@@ -164,9 +181,18 @@ export default function Account() {
                     </label>
                     <div className="account-button">
                         <button type="submit">Mettre à jour</button>
+                        
                     </div>
                 </form>
                 {message && <p>{message}</p>}
+                <p className="danger-zone"> Zone de danger : si vous cliquez, cela supprimera instantanément votre compte et toutes vos plantes ! </p>
+                <button
+                    className="delete-account"
+                    onClick={() => handleDeleteUser(uid)}
+                >
+                    Supprimer mon compte
+                </button>
+                
             </div>
         </div>
     );
