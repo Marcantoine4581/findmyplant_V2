@@ -1,3 +1,4 @@
+import axios from 'axios';
 import NavBar from '../components/NavBar';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -5,15 +6,19 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/CreateAd.css';
 import Container from 'react-bootstrap/Container';
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
+// import { useNavigate } from 'react-router';
 import InputGroup from 'react-bootstrap/InputGroup';
 import SearchPlant from '../components/SearchPlant';
 import { accountService } from '../services/accountService';
 
-function CreateAd() {
+export default function CreateAd() {
     const apiUrl = process.env.REACT_APP_API_URL;
     const endpointproduct = process.env.REACT_APP_END_POINT_PRODUCTS;
     const uid = localStorage.getItem('userId');
+    const [message, setMessage] = useState('');
+    const [planteNameMessage, setPlanteNameMessage] = useState('');
+    const [conditionMessage, setConditionMessage] = useState('');
+    const [imageMessage, setImageMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [form, setForm] = useState({
         userId: uid,
@@ -24,7 +29,7 @@ function CreateAd() {
         image: [],
     });
     const token = accountService.getToken();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     // These methods will update the state properties.
     function updateForm(value) {
@@ -35,7 +40,6 @@ function CreateAd() {
 
     function handleImageUpload(e) {
         const file = e.target.files;
-        console.log(file);
         updateForm({ image: file });
     }
 
@@ -55,19 +59,32 @@ function CreateAd() {
             formData.append('image', form.image[i]);
         }
 
-        await fetch(`${apiUrl}${endpointproduct}`, {
-            method: 'POST',
-            body: formData,
-            headers: { Authorization: `Bearer ${token}` },
-        }).catch((error) => {
-            console.log(error);
-            window.alert(error);
-            return;
-        });
+        setPlanteNameMessage('');
+        setConditionMessage('');
+        setImageMessage('');
+        setMessage('');
 
-        setIsLoading(false);
-        setForm({ userId: '', plantName: '', condition: '', price: '', comment: '', imageUrl: '' });
-        navigate('/');
+        await axios
+            .post(`${apiUrl}${endpointproduct}`, formData, {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            .then(() => {
+                setIsLoading(false);
+                console.log('Creation réussi !');
+                setMessage('Annonce créée avec succès!');
+            })
+            .catch((error) => {
+                setIsLoading(false);
+                if (error.response.data.message === 'Merci d\'indiquer un nom à votre plante.') {
+                    setPlanteNameMessage(error.response.data.message);
+                }
+                if (error.response.data.message === 'Merci d\'indiquer une condition à votre annonce.') {
+                    setConditionMessage(error.response.data.message);
+                } 
+                if (error.response.data.message === 'Merci d\'intégrer une image à votre annonce.') {
+                    setImageMessage(error.response.data.message);
+                } 
+            });
     }
 
     return (
@@ -80,6 +97,7 @@ function CreateAd() {
 
                 <Form onSubmit={onSubmit}>
                     <SearchPlant searchTerm={form.plantName} handleSearch={updateForm} />
+                    {planteNameMessage && <p className="errorMessage">{planteNameMessage}</p>}
 
                     {/* Select condition */}
                     <Form.Group className="createAd-group">
@@ -127,6 +145,7 @@ function CreateAd() {
                             />
                         </div>
                     </Form.Group>
+                    {conditionMessage && <p className="errorMessage">{conditionMessage}</p>}
 
                     {/* Price */}
                     <InputGroup className="createAd-group">
@@ -163,17 +182,16 @@ function CreateAd() {
                             onChange={handleImageUpload}
                         />
                     </Form.Group>
-
+                    {imageMessage && <p className="errorMessage">{imageMessage}</p>}
                     <Form.Group controlId="submit" className="createAd-group">
-                        <Button variant="primary" type="submit" style={{ marginTop: '20px' }}>
+                        <Button variant="primary" type="submit" style={{ marginTop: '20px', backgroundColor: '#16AF78', borderColor: '#16AF78' }}>
                             Créer
                         </Button>
                     </Form.Group>
-                    {isLoading && <p>En cours de chargement</p>}
+                    {isLoading && <p className="infoMessage">En cours de chargement</p>}
+                    {message && <p className="succesMessage">{message}</p>}
                 </Form>
             </Container>
         </div>
     );
 }
-
-export default CreateAd;

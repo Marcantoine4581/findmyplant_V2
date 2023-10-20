@@ -107,11 +107,11 @@ View the complete list of the backend dependencies in the [package.json](https:/
 - `"/"`: The home page.
 - `"/signup"`: The register page.
 - `"/login"`: The login page.
-- `"/createad"`: Create a product. (Authenticated Route)
+- `"/createad"`: Page where a user can create a product. (Authenticated Route)
 - `"/account"`: The user account page. (Authenticated Route)
-- `"/product/:id"`: The product page.
-- `"/account-annonces"`: The list products of a user. (Authenticated Route)
-- `"/user/:id/modify-ad/:id"`: Modify a product. (Authenticated Route)
+- `"/product/:id"`: Page to see all information regarding a product.
+- `"/account-annonces"`: Page where a user can manage his products. (Authenticated Route)
+- `"/user/:id/modify-ad/:id"`: Page where a user can modify information about a product. (Authenticated Route)
 
 
 ### Dependencies
@@ -128,7 +128,7 @@ View the complete list of the backend dependencies in the [package.json](https:/
 | react-hook-form  | ^7.44.2 |
 | react-router-dom | ^6.11.2 |
 
-View the complete list of the backend dependencies in the [package.json](https://github.com/Marcantoine4581/findmyplant_V2/blob/main/frontend/package.json)
+View the complete list of the frontend dependencies in the [package.json](https://github.com/Marcantoine4581/findmyplant_V2/blob/main/frontend/package.json)
 
 ## ✨ New features
 - Authentication improved with Json Web Token.

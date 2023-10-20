@@ -2,6 +2,7 @@ const fs = require('fs');
 const cloudinary = require('../config/cloudinaryConfig');
 const Product = require('../models/Product');
 const cloudinaryPublicId = require('../utils/cloudinary');
+const User = require('../models/User');
 
 class ProductsController {
   static getAllProducts(req, res) {
@@ -16,13 +17,32 @@ class ProductsController {
   }
 
   static async createOneProduct(req, res) {
-    try {
-      const listImage = req.files;
-      console.log(listImage);
-      // if (listImage.length === 0) {
-      //   return res.status(400).json({ message: 'Merci d\'intégrer une image à votre annonce.' });
-      // }
+    const { userId, plantName, condition } = req.body;
 
+    // Check the userId
+    const foundUser = await User.findOne({ _id: userId });
+    if (!foundUser) {
+      return res.status(400).json({ message: 'L\'utilisateur n\'existe pas' });
+    }
+
+    // Check the plantName
+    if (!plantName) {
+      return res.status(400).json({ message: 'Merci d\'indiquer un nom à votre plante.' });
+    }
+
+    // Check the condition
+    if (!condition) {
+      return res.status(400).json({ message: 'Merci d\'indiquer une condition à votre annonce.' });
+    }
+
+    // Check the image.
+    const listImage = req.files;
+    if (listImage.length === 0) {
+      return res.status(400).json({ message: 'Merci d\'intégrer une image à votre annonce.' });
+    }
+    
+    
+    try {
       const uploadPromises = listImage.map(async (image) => {
         // Save the image in Cloudinary
         const result = await cloudinary.uploader.upload(image.path, {
@@ -53,7 +73,7 @@ class ProductsController {
 
       res.status(201).json({ product });
     } catch (error) {
-      res.status(400).json({ message: error.message });
+      res.status(500).json({ message: error.message });
     }
   }
 

@@ -34,7 +34,6 @@ class UsersController {
   }
 
   static async modifyUser(req, res) {
-    console.log(req.body);
     const existingUser = await User.findOne({ _id: req.params.id });
     if (req.body.password !== existingUser.password) {
       bcrypt.hash(req.body.password, 10)

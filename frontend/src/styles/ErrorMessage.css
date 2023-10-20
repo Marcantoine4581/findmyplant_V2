@@ -2,3 +2,15 @@
     font-size: small;
     color: rgb(164, 12, 12);
 }
+
+.succesMessage {
+    font-size: small;
+    color: #16AF78;
+    text-align: center;
+}
+
+.infoMessage {
+    font-size: small;
+    color: black;
+    text-align: center;
+}

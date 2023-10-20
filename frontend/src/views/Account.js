@@ -184,6 +184,7 @@ export default function Account() {
                         
                     </div>
                 </form>
+                {message && <p>{message}</p>}
                 <p className="danger-zone"> Zone de danger : si vous cliquez, cela supprimera instantanément votre compte et toutes vos plantes ! </p>
                 <button
                     className="delete-account"
@@ -191,7 +192,7 @@ export default function Account() {
                 >
                     Supprimer mon compte
                 </button>
-                {message && <p>{message}</p>}
+                
             </div>
         </div>
     );
