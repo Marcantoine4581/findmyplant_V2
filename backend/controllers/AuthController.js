@@ -4,14 +4,25 @@ const User = require('../models/User');
 
 class AuthController {
   static async signup(req, res) {
-    // Vérifiez si l'e-mail est déjà utilisé
+    const { userName, email, password } = req.body;
+    // Check the userName
+    if (!userName) {
+      return res.status(400).json({ message: 'Merci d\'indiquer un nom d\'utilsateur' });
+    }
+
+    // Check the email
+    if (!email) {
+      return res.status(400).json({ message: 'Merci d\'indiquer une adresse email' });
+    }
+
     try {
-      const existingUser = await User.findOne({ email: req.body.email });
+      const existingUser = await User.findOne({ email });
+      // Check if email already exists
       if (existingUser) {
-        // L'e-mail est déjà utilisé, renvoie une réponse d'erreur
         return res.status(409).json({ message: 'Cet e-mail est déjà utilisé.' });
       }
-      if (req.body.password.length < 6) {
+      // Check the size of the password
+      if (password.length < 6) {
         return res.status(400).json({ message: 'Le mot de passe doit avoir au moins 6 caractères.' });
       }
 

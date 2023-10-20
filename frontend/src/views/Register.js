@@ -9,6 +9,7 @@ export default function Signup() {
     const apiUrl = process.env.REACT_APP_API_URL;
     const endpointauth = process.env.REACT_APP_END_POINT_AUTH;
     const [password2, setPassword2] = useState('');
+    const [userNameError, setuserNameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
     const [emailError, setEmailError] = useState('');
     const [postalCode, setPostalCode] = useState('');
@@ -28,7 +29,27 @@ export default function Signup() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setuserNameError('');
+        setPostalCodeError('');
+        setEmailError('');
+        setPasswordError('');
 
+        if (!data.userName) {
+            setuserNameError('Merci d\'indiquer un nom d\'utilsateur');
+            return;
+        }
+        if (!data.email) {
+            setEmailError('Merci d\'indiquer une adresse email');
+            return;
+        }
+        if (!data.password || !password2) {
+            setPasswordError('Merci d\'indiquer un mot de passe');
+            return;
+        }
+        if (!postalCode) {
+            setPostalCodeError('Le code postal est incorrect');
+            return;
+        }
         await axios
             .get('https://geo.api.gouv.fr/communes?codePostal=' + postalCode)
             .then((res) => {
@@ -56,9 +77,22 @@ export default function Signup() {
                             navigate('/login');
                         })
                         .catch((error) => {
-                            setEmailError(error.response.data.message);
+                            if (error.response.data.message === 'Merci d\'indiquer un nom d\'utilsateur') {
+                                setuserNameError(error.response.data.message);
+                            }
+                            if (error.response.data.message === 'Merci d\'indiquer une adresse email') {
+                                setEmailError(error.response.data.message);
+                            } 
+                            if (error.response.data.message === 'Cet e-mail est déjà utilisé.') {
+                                setEmailError(error.response.data.message);
+                            }
+                            if (error.response.data.message === 'Le mot de passe doit avoir au moins 6 caractères.') {
+                                setPasswordError(error.response.data.message);
+                            } 
+                            
                         });
                 } else {
+                    
                     setPasswordError('Les mots de passe ne correspondent pas');
                 }
             })
@@ -82,6 +116,7 @@ export default function Signup() {
                             onChange={(e) => setData({ ...data, userName: e.target.value })}
                         />
                     </label>
+                    {userNameError && <p className="errorMessage">{userNameError}</p>}
                     <label>
                         <p>Email</p>
                         <input

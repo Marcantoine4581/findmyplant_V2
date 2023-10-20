@@ -12,9 +12,11 @@
     padding-bottom: 50px;
 }
 
-form {
+.register-wrapper form {
     display: flex;
     flex-direction: column;
+    width: 100%;
+    align-items: center;
 }
 
 .title {
@@ -25,8 +27,12 @@ label p {
     margin-bottom: 2px;
 }
 
-input {
-    margin-bottom: 20px;
+.register-wrapper label {
+    width: 70%;
+}
+
+.register-wrapper input { 
+    width: 100%;
 }
 
 .button {
