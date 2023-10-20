@@ -24,6 +24,9 @@ This project if fully deployed online.
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 
+## 🏛️ Architecture:
+![image](https://github.com/Marcantoine4581/findmyplant_V2/assets/113889488/1255144a-4248-4300-86b2-455cd07d38ed)
+
 ## Requirements
 I recommend to use these versions for this project.
 ```
@@ -112,6 +115,11 @@ View the complete list of the backend dependencies in the [package.json](https:/
 - `"/product/:id"`: Page to see all information regarding a product.
 - `"/account-annonces"`: Page where a user can manage his products. (Authenticated Route)
 - `"/user/:id/modify-ad/:id"`: Page where a user can modify information about a product. (Authenticated Route)
+
+### Usage of Public API:
+In the signup page, a user just need enter a Postal Code and during the creation process the frontend will get the city from `https://geo.api.gouv.fr/communes?codePostal=<Postal Code>`.
+
+View the complete API documentation on [geo.api.gouv.fr](https://geo.api.gouv.fr/decoupage-administratif/communes).
 
 
 ### Dependencies
