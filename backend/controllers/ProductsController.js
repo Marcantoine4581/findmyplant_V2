@@ -40,8 +40,7 @@ class ProductsController {
     if (listImage.length === 0) {
       return res.status(400).json({ message: 'Merci d\'intégrer une image à votre annonce.' });
     }
-    
-    
+
     try {
       const uploadPromises = listImage.map(async (image) => {
         // Save the image in Cloudinary
@@ -71,9 +70,9 @@ class ProductsController {
       });
       await product.save();
 
-      res.status(201).json({ product });
+      return res.status(201).json({ product });
     } catch (error) {
-      res.status(500).json({ message: error.message });
+      return res.status(500).json({ message: error.message });
     }
   }
 
