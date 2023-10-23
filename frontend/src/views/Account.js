@@ -43,6 +43,7 @@ export default function Account() {
         e.preventDefault();
 
         setMessage('');
+        setPasswordError('');
 
         if (password === '' && password === password2) {
             axios
@@ -53,7 +54,9 @@ export default function Account() {
                     console.log('Mise à jour réussie !');
                     setMessage(res.data.message);
                 })
-                .catch((error) => console.log(error));
+                .catch((error) => {
+                    setMessage(error.response.data.message);
+                });
         } else if (password !== '' && password === password2) {
             const updatedData = {
                 ...data,
@@ -69,7 +72,10 @@ export default function Account() {
                     console.log('Mise à jour réussie !');
                     setMessage(res.data.message);
                 })
-                .catch((error) => console.log(error));
+                .catch((error) => {
+                    console.log(error);
+                    setMessage(error.response.data.message);
+                });
         } else {
             setPasswordError('Les mots de passe ne correspondent pas');
         }
@@ -184,12 +190,12 @@ export default function Account() {
                             }
                         />
                     </label>
+                    {message && <p className="succesMessage">{message}</p>}
                     <div className="account-button">
                         <button type="submit">Mettre à jour</button>
                         
                     </div>
                 </form>
-                {message && <p className="succesMessage">{message}</p>}
                 <p className="danger-zone"> Zone de danger : si vous cliquez, cela supprimera instantanément votre compte et toutes vos plantes ! </p>
                 <button
                     className="delete-account"

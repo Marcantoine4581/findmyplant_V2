@@ -77,10 +77,10 @@ export default function Signup() {
                             navigate('/login');
                         })
                         .catch((error) => {
-                            if (error.response.data.message === 'Merci d\'indiquer un nom d\'utilsateur') {
+                            if (error.response.data.message === 'Merci d\'indiquer un nom d\'utilisateur') {
                                 setuserNameError(error.response.data.message);
                             }
-                            if (error.response.data.message === 'Merci d\'indiquer une adresse email') {
+                            if (error.response.data.message === 'Merci d\'indiquer une adresse email valide') {
                                 setEmailError(error.response.data.message);
                             } 
                             if (error.response.data.message === 'Cet e-mail est déjà utilisé.') {

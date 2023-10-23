@@ -46,7 +46,6 @@ function SearchPlant({ searchTerm, handleSearch }) {
                     <Form.Control
                         className='createAd-input'
                         type="text"
-                        placeholder="Nom de la plante"
                         value={selectedItem || searchTerm}
                         onChange={(e) => handleSearch({ plantName: e.target.value })}
                     />

@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const validator = require('email-validator');
 const User = require('../models/User');
 const Product = require('../models/Product');
 const cloudinary = require('../config/cloudinaryConfig');
@@ -34,31 +35,59 @@ class UsersController {
   }
 
   static async modifyUser(req, res) {
-    const existingUser = await User.findOne({ _id: req.params.id });
-    if (req.body.password !== existingUser.password) {
-      bcrypt.hash(req.body.password, 10)
-        .then((hash) => {
-          User.updateOne({ _id: req.params.id }, {
-            userName: req.body.userName,
-            email: req.body.email,
-            password: hash,
-            adress: {
-              street: req.body.adress.street,
-              city: req.body.adress.city,
-              postalCode: req.body.adress.postalCode,
-              country: req.body.adress.country,
-            },
-            _id: req.params.id,
-          })
-            .then(() => res.status(200).json({ message: 'Profil mis à jour avec succès' }))
-            .catch((error) => res.status(400).json({ error }));
-        })
-        .catch((error) => res.status(500).json({ error }));
-    } else {
-      User.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id })
-        .then(() => res.status(200).json({ message: 'Profil mis à jour avec succès' }))
-        .catch((error) => res.status(400).json({ error }));
+    const {
+      userName, email, password, adress,
+    } = req.body;
+    // Check the userName
+    if (!userName) {
+      return res.status(400).json({ message: 'Merci d\'indiquer un nom d\'utilisateur' });
     }
+
+    // Check the email
+    const emailIsValidated = validator.validate(email);
+    console.log(emailIsValidated);
+    if (!emailIsValidated) {
+      return res.status(400).json({ message: 'Merci d\'indiquer une adresse email valide' });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ message: 'Le mot de passe doit avoir au moins 6 caractères.' });
+    }
+
+    if (adress.postalCode.length !== 5) {
+      return res.status(400).json({ message: 'Merci d\'indiquer un code postal valide.' });
+    }
+
+    if (!adress.city) {
+      return res.status(400).json({ message: 'Merci d\'indiquer une ville.' });
+    }
+
+    const existingUser = await User.findOne({ _id: req.params.id });
+
+    try {
+      if (req.body.password !== existingUser.password) {
+        const hash = await bcrypt.hash(req.body.password, 10);
+        await User.updateOne({ _id: req.params.id }, {
+          userName: req.body.userName,
+          email: req.body.email,
+          password: hash,
+          adress: {
+            street: req.body.adress.street,
+            city: req.body.adress.city,
+            postalCode: req.body.adress.postalCode,
+            country: req.body.adress.country,
+          },
+          _id: req.params.id,
+        });
+        res.status(200).json({ message: 'Profil mis à jour avec succès' });
+      } else {
+        await User.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id });
+        res.status(200).json({ message: 'Profil mis à jour avec succès' });
+      }
+    } catch (error) {
+      res.status(500).json({ error });
+    }
+    return null;
   }
 
   /* eslint-disable consistent-return */

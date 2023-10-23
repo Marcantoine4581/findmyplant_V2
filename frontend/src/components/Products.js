@@ -13,7 +13,7 @@ function Products() {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchCity, setSearchCity] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
-    let [itemsPerPage, setItemsPerPage ] = useState(3); // Number of items per page
+    let [itemsPerPage, setItemsPerPage ] = useState(8); // Number of items per page
     const [isSearchPending, setIsSearchPending] = useState(false);
 
 
