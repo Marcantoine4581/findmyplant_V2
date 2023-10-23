@@ -19,8 +19,8 @@ function paginatedResults(model) {
       }
 
       const products = await model.find(query)
-        .populate('userId', '-email -password')
-        .sort({ createdAt: 'desc' });
+        .sort({ createAt: 'desc' })
+        .populate('userId', '-email -password');
 
       const filteredProduct = products.filter((item) => {
         if (city) {

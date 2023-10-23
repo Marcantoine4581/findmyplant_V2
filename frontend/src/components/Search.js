@@ -12,7 +12,6 @@ function Search({ searchTerm, setSearchTerm, searchCity, handleSearchCity, handl
 
 
     const handleDataItemClick = (nom) => {
-        console.log(nom);
         setSelectedItem(nom); // Update state with value of selected dataItem
         setShowResults(false);
     };
@@ -38,7 +37,6 @@ function Search({ searchTerm, setSearchTerm, searchCity, handleSearchCity, handl
 
     const handleSearch = event => {
         setSearchTerm(event.target.value);
-        console.log(searchTerm);
     };
 
     return (

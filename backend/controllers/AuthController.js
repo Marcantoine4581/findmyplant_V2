@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const validator = require('email-validator');
 const User = require('../models/User');
 
 class AuthController {
@@ -7,12 +8,13 @@ class AuthController {
     const { userName, email, password } = req.body;
     // Check the userName
     if (!userName) {
-      return res.status(400).json({ message: 'Merci d\'indiquer un nom d\'utilsateur' });
+      return res.status(400).json({ message: 'Merci d\'indiquer un nom d\'utilisateur' });
     }
 
     // Check the email
-    if (!email) {
-      return res.status(400).json({ message: 'Merci d\'indiquer une adresse email' });
+    const emailIsValidated = validator.validate(email);
+    if (!emailIsValidated) {
+      return res.status(400).json({ message: 'Merci d\'indiquer une adresse email valide' });
     }
 
     try {
