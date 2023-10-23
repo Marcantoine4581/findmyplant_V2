@@ -24,7 +24,8 @@ after((done) => {
 })
 
 describe('/ Test User Collection', () => {
-
+  var userId = '';
+  var token = '';
   it('test getAllUser', (done) => {
     chai.request(server)
       .get('/api/user')
@@ -43,6 +44,30 @@ describe('/ Test User Collection', () => {
         res.should.have.status(200);
         expect(res.body).to.be.an('object');
         expect(res.body.user.length).to.be.eql(0);
+        done();
+      });
+  });
+
+  it('should test the password length', (done) => {
+
+    const user = {
+      "userName": "Maurice",
+      "email": "maurice@gmail.com",
+      "password": "123",
+      "adress": {
+        "street": "",
+        "city": "Paris",
+        "postalCode": "75010",
+        "country": ""
+      }
+    }
+    chai.request(server)
+      .post('/api/auth/signup')
+      .send(user)
+      .end((err, res) => {
+        res.should.have.status(400);
+        const actualMessage = res.body.message;
+        expect(actualMessage).to.be.equal('Le mot de passe doit avoir au moins 6 caractères.');
         done();
       });
   });
@@ -109,8 +134,8 @@ describe('/ Test User Collection', () => {
       .end((err, res) => {
         console.log('this runs the login part');
         res.body.should.be.an('object');
-        var token = res.body.token;
-        var userId = res.body.userId;
+        token = res.body.token;
+        userId = res.body.userId;
 
         const userUpdate = {
           "userName": "Jean",
@@ -128,6 +153,7 @@ describe('/ Test User Collection', () => {
           .set("Authorization", `Bearer ${token}`)
           .send(userUpdate)
           .end((err, res) => {
+            console.log('this runs the update user part');
             res.should.have.status(200);
             const actualMessage = res.body.message;
             expect(actualMessage).to.be.equal('Profil mis à jour avec succès');
@@ -145,6 +171,29 @@ describe('/ Test User Collection', () => {
         res.should.have.status(200);
         res.body.should.be.an('object');
         res.body.user.length.should.be.eql(1);
+        done();
+      });
+  });
+
+  it('should delete the user in the DB', (done) => {
+    chai.request(server)
+      .delete(`/api/user/${userId}`)
+      .set("Authorization", `Bearer ${token}`)
+      .end((err, res) => {
+        res.should.have.status(200);
+        const actualMessage = res.body.message;
+        expect(actualMessage).to.be.equal('User deleted !');
+        done();
+      });
+  });
+
+  it('should verify that we have 0 user in the DB', (done) => {
+    chai.request(server)
+      .get('/api/user')
+      .end((err, res) => {
+        res.should.have.status(200);
+        expect(res.body).to.be.an('object');
+        expect(res.body.user.length).to.be.eql(0);
         done();
       });
   });

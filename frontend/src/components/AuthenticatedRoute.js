@@ -5,8 +5,7 @@ import { accountService } from '../services/accountService';
 
 
 const AuthenticatedRoute = ({ children }) => {
-    const token = accountService.getToken();
-    
+    const token = accountService.getToken();   
 
     const isTokenExpired = () => {
         if (token) {
