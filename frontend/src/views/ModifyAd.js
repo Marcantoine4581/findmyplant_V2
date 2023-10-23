@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/CreateAd.css';
 import Container from 'react-bootstrap/Container';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+// import { useNavigate } from 'react-router';
 import InputGroup from 'react-bootstrap/InputGroup';
 import SearchPlant from '../components/SearchPlant';
 import { useParams } from 'react-router-dom';
@@ -18,15 +18,18 @@ function ModifyAd() {
     const { id } = useParams();
     const uid = localStorage.getItem('userId');
     const [message, setMessage] = useState('');
+    const [planteNameMessage, setPlanteNameMessage] = useState('');
+    const [conditionMessage, setConditionMessage] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const [form, setForm] = useState({
         userId: '',
         plantName: '',
         condition: '',
         price: '',
         comment: '',
-        image: null,
+        image: [],
     });
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     const token = accountService.getToken();
 
     useEffect(() => {
@@ -49,38 +52,51 @@ function ModifyAd() {
     }
 
     function handleImageUpload(e) {
-        const file = e.target.files[0];
+        const file = e.target.files;
         updateForm({ image: file });
     }
 
     async function onSubmit(e) {
         e.preventDefault();
+        setIsLoading(true);
         if (form.price === null) {
             updateForm({ price: '0' });
         }
-
         const formData = new FormData();
         formData.append('userId', uid);
         formData.append('plantName', form.plantName);
         formData.append('condition', form.condition);
         formData.append('price', form.price);
         formData.append('comment', form.comment);
-        formData.append('image', form.image);
+        if (form.image && form.image.length > 0) {
+            for (let i = 0; i < form.image.length; i++) {
+                formData.append('image', form.image[i]);
+            }
+        }
 
+        setPlanteNameMessage('');
+        setConditionMessage('');
+        
         await axios
             .put(`${apiUrl}${endpointproduct}` + id, formData, {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((res) => {
+                setIsLoading(false);
                 console.log('Mise à jour réussie !');
                 setMessage(res.data.message);
             })
             .catch((error) => {
-                window.alert(error);
-                return;
+                setIsLoading(false);
+                if (error.response.data.message === 'Merci d\'indiquer un nom à votre plante.') {
+                    setPlanteNameMessage(error.response.data.message);
+                }
+                if (error.response.data.message === 'Merci d\'indiquer une condition à votre annonce.') {
+                    setConditionMessage(error.response.data.message);
+                } 
             });
 
-        navigate('/');
+        // navigate('/');
     }
 
     return (
@@ -93,6 +109,7 @@ function ModifyAd() {
 
                 <Form onSubmit={onSubmit}>
                     <SearchPlant searchTerm={form.plantName} handleSearch={updateForm} />
+                    {planteNameMessage && <p className="errorMessage">{planteNameMessage}</p>}
 
                     {/* Select condition */}
                     <Form.Group className="createAd-group">
@@ -140,6 +157,7 @@ function ModifyAd() {
                             />
                         </div>
                     </Form.Group>
+                    {conditionMessage && <p className="errorMessage">{conditionMessage}</p>}
 
                     {/* Price */}
                     <InputGroup className="createAd-group">
@@ -172,18 +190,19 @@ function ModifyAd() {
                             className="createAd-input"
                             type="file"
                             accept="image/*"
+                            multiple
                             onChange={handleImageUpload}
                         />
                     </Form.Group>
-
+                    {isLoading && <p className="infoMessage">En cours de chargement</p>}
+                    {message && <p className="succesMessage">{message}</p>}
                     <Form.Group controlId="submit">
-                        <Button variant="primary" type="submit" style={{ marginTop: '20px' }}>
+                        <Button variant="primary" type="submit" style={{ marginTop: '20px', backgroundColor: '#16AF78', borderColor: '#16AF78' }}>
                             Modifier
                         </Button>
                     </Form.Group>
                 </Form>
             </Container>
-            {message && <p>{message}</p>}
         </div>
     );
 }

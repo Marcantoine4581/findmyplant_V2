@@ -77,55 +77,51 @@ class ProductsController {
   }
 
   static async modifyProduct(req, res) {
-    // Verify if an image is uploaded in order to delete the old image.
-    if (req.file) {
+    if (req.files) {
+      const listImage = req.files;
       try {
-        const existingProduct = await Product.findOne({ _id: req.params.id });
-        const oldImagePath = existingProduct.imageUrl;
-        if (oldImagePath) {
-          const publicId = cloudinaryPublicId(oldImagePath);
-          console.log(publicId);
-          cloudinary.uploader.destroy(publicId).then((result) => {
-            console.log(result);
-            console.log('ancienne image suprimé');
+        const uploadPromises = listImage.map(async (image) => {
+          const result = await cloudinary.uploader.upload(image.path, {
+            folder: 'products',
+            width: 600,
+            crop: 'scale',
           });
+          console.log('image uploaded');
+
+          fs.unlink(image.path, (error) => {
+            if (error) console.log(error);
+            else {
+              console.log(`${image.path} deleted`);
+            }
+          });
+          console.log(result);
+          return result.secure_url;
+        });
+
+        const imagesUrl = await Promise.all(uploadPromises);
+
+        try {
+          await Product.updateOne(
+            { _id: req.params.id },
+            { ...req.body, _id: req.params.id, $push: { imageUrl: imagesUrl } },
+          );
+          return res.status(200).json({ message: 'Votre plante a bien été mise à jour.' });
+        } catch (error) {
+          return res.status(400).json({ message: error.message });
         }
-
-        const { path } = req.file;
-        const result = await cloudinary.uploader.upload(path, {
-          folder: 'products',
-          width: 600,
-          crop: 'scale',
-        });
-        console.log('image uploadé');
-        const newProduct = {
-          ...req.body,
-          imageUrl: result.secure_url,
-        };
-        console.log(result);
-
-        fs.unlink(path, (error) => {
-          if (error) console.log(error);
-          else {
-            console.log('Deleted file');
-          }
-        });
-        Product.updateOne(
-          { _id: req.params.id },
-          { ...newProduct, _id: req.params.id },
-        )
-          .then(() => res.status(200).json({ message: 'Modified!' }))
-          .catch((error) => res.status(400).json({ error }));
       } catch (error) {
-        res.status(400).json({ error });
+        return res.status(500).json({ message: error.message });
       }
     } else {
-      Product.updateOne(
-        { _id: req.params.id },
-        { ...req.body, _id: req.params.id },
-      )
-        .then(() => res.status(200).json({ message: 'Modified!' }))
-        .catch((error) => res.status(400).json({ error }));
+      try {
+        await Product.updateOne(
+          { _id: req.params.id },
+          { ...req.body, _id: req.params.id },
+        );
+        return res.status(200).json({ message: 'Votre plante a bien été mise à jour.' });
+      } catch (error) {
+        return res.status(400).json({ message: error.message });
+      }
     }
   }
 
@@ -138,10 +134,11 @@ class ProductsController {
       const deletePromises = existingProduct.imageUrl.map(async (imgUrl) => {
         const publicId = cloudinaryPublicId(imgUrl);
         const result = await cloudinary.uploader.destroy(publicId);
+        console.log(result);
         if (!result) {
           return res.status(500).json({ message: 'Une erreur s\'est produite lors de la suppression de l\'image' });
         }
-        console.log('Image supprimé de Cloudinary');
+        console.log('Image supprimée de Cloudinary');
         return result;
       });
 

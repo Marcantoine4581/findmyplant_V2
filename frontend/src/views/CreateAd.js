@@ -54,7 +54,6 @@ export default function CreateAd() {
         formData.append('condition', form.condition);
         formData.append('price', form.price);
         formData.append('comment', form.comment);
-
         for (let i = 0; i < form.image.length; i++) {
             formData.append('image', form.image[i]);
         }

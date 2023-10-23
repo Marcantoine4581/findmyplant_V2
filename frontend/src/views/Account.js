@@ -41,6 +41,9 @@ export default function Account() {
 
     function onSubmit(e) {
         e.preventDefault();
+
+        setMessage('');
+
         if (password === '' && password === password2) {
             axios
                 .put(`${apiUrl}${endpoint}` + uid, data, {
@@ -59,7 +62,9 @@ export default function Account() {
             setData(updatedData);
 
             axios
-                .put(`${apiUrl}${endpoint}` + uid, updatedData)
+                .put(`${apiUrl}${endpoint}` + uid, updatedData, {
+                    headers: { Authorization: `Bearer ${token}` },
+                })
                 .then((res) => {
                     console.log('Mise à jour réussie !');
                     setMessage(res.data.message);
@@ -184,7 +189,7 @@ export default function Account() {
                         
                     </div>
                 </form>
-                {message && <p>{message}</p>}
+                {message && <p className="succesMessage">{message}</p>}
                 <p className="danger-zone"> Zone de danger : si vous cliquez, cela supprimera instantanément votre compte et toutes vos plantes ! </p>
                 <button
                     className="delete-account"
