@@ -8,6 +8,7 @@ import Account from '../views/Account';
 import ProductDetail from '../views/ProductDetail';
 import AccountProducts from '../views/AccountProducts';
 import ModifyAd from '../views/ModifyAd';
+import NotFound from '../views/NotFound';
 
 function App() {
     return (
@@ -37,6 +38,7 @@ function App() {
                         <ModifyAd />
                     </AuthenticatedRoute>
                 } />
+                <Route path="*" element={<NotFound />} />
             </Routes>
         </BrowserRouter>
     );

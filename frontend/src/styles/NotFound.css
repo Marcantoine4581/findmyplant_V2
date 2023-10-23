@@ -1,0 +1,12 @@
+.NotFound {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.NotFound h2 {
+    color: #16AF78;
+}
+
+.NotFound img {
+    width: 300px;
+}
