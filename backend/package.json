@@ -1,7 +1,15 @@
 {
   "name": "findmyplant_v2",
   "version": "1.0.0",
-  "description": "",
+  "description": "Web platform for passionates of plants",
+  "repository": {
+    "url": "https://github.com/Marcantoine4581/findmyplant_V2.git",
+    "type": "git"
+  },
+  "author": {
+    "name": "Marc-Antoine VANNIER"
+  },
+  "license": "MIT",
   "main": "server.js",
   "scripts": {
     "lint": "eslint . --ext .js",
@@ -9,8 +17,6 @@
     "dev": "NODE_ENV=development nodemon server.js",
     "test": "NODE_ENV=development mocha ./test/*.test.js --exit"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cloudinary": "^1.41.0",
