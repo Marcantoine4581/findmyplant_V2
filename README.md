@@ -17,7 +17,7 @@ I also wanted to improve my knowledges with Docker and CI/CD with Github actions
 My development environment has been built with Docker, no need to install dependencies in my local machine.
 You build it, you run it ! 🚀
 
-This project if fully deployed online.
+This project is fully deployed online.
 
 ## 🛠️ Built with:
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
