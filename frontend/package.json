@@ -9,7 +9,6 @@
   "author": {
     "name": "Marc-Antoine VANNIER"
   },
-  "license": "MIT",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.5",
