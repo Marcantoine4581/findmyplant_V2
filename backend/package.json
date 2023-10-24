@@ -9,7 +9,6 @@
   "author": {
     "name": "Marc-Antoine VANNIER"
   },
-  "license": "MIT",
   "main": "server.js",
   "scripts": {
     "lint": "eslint . --ext .js",
