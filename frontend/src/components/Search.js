@@ -64,7 +64,7 @@ function Search({ searchTerm, setSearchTerm, searchCity, handleSearchCity, handl
                 )}
                 {showResults && searchTerm.length >= 3 && (
                     <div className='dataResult'>
-                        {filteredOptions.slice(0, 10).map((nom, index) => <p key={index} className='dataItem' onClick={() => handleDataItemClick(nom)}>{nom}</p>)}
+                        {filteredOptions.slice(0, 40).map((nom, index) => <p key={index} className='dataItem' onClick={() => handleDataItemClick(nom)}>{nom}</p>)}
                     </div>
                 )}
 

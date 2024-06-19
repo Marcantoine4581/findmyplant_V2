@@ -8,11 +8,12 @@ const router = require('./routes/index');
 const app = express();
 const PORT = process.env.PORT || 5000;
 const DB_URL = process.env.NODE_ENV === 'production' ? process.env.MONGODB_URI_PROD : process.env.MONGODB_URI_DEV;
+const HTTP_ORIGIN = process.env.NODE_ENV === 'production' ? process.env.HTTP_ORIGIN_PROD : process.env.HTTP_ORIGIN_DEV;
 
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+  res.setHeader('Access-Control-Allow-Origin', `${HTTP_ORIGIN}`);
+  res.setHeader('Access-Control-Allow-Headers', 'Origin, Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   next();
 });
 

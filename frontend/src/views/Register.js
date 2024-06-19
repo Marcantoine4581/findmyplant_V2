@@ -35,11 +35,11 @@ export default function Signup() {
         setPasswordError('');
 
         if (!data.userName) {
-            setuserNameError('Merci d\'indiquer un nom d\'utilsateur');
+            setuserNameError('Merci d\'indiquer un nom d\'utilisateur');
             return;
         }
         if (!data.email) {
-            setEmailError('Merci d\'indiquer une adresse email');
+            setEmailError('Merci d\'indiquer une adresse email valide');
             return;
         }
         if (!data.password || !password2) {
